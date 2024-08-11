@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+const NEXT_PUBLIC_API_BASEURL =
+  "https://s9momdcn4i.execute-api.ap-northeast-2.amazonaws.com/prod";
 
 export const metadata: Metadata = {
   title: "Create Next App",
