@@ -1,5 +1,5 @@
-import TwitterCard from "@/components/ui/twitter-card";
+import Conversation from "@/components/containers/Conversation";
 
 export default function Home() {
-  return <TwitterCard />;
+  return <Conversation />;
 }
