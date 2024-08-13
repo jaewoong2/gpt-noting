@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Edu_VIC_WA_NT_Beginner, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import ReactQueryProvider from "@/components/ReactQueryProvider";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
-const NEXT_PUBLIC_API_BASEURL =
-  "https://s9momdcn4i.execute-api.ap-northeast-2.amazonaws.com/prod";
+// const inter = Font.Inter({ subsets: ["latin"] });
+const edu_VIC_WA_NT_Beginner = Edu_VIC_WA_NT_Beginner({
+  subsets: ["latin"],
+  variable: "--Edu_VIC_WA_NT_Beginner",
+});
+
+const noto_Sans_Korean = Noto_Sans_KR({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={inter.className}>
+      <body
+        className={cn(
+          noto_Sans_Korean.className,
+          edu_VIC_WA_NT_Beginner.variable
+        )}
+      >
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>

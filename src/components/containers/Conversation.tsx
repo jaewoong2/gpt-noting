@@ -1,6 +1,6 @@
 "use client";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const queryFn = (number: number) =>
   fetch("https://jsonplaceholder.typicode.com/todos/" + `${number}`).then(
