@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Edu_VIC_WA_NT_Beginner, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
-import ReactQueryProvider from "@/components/ReactQueryProvider";
+import ReactQueryProvider from "@/components/providers/ReactQueryProvider";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import AuthContextProvider from "@/components/providers/AuthContextProvider";
 
 // const inter = Font.Inter({ subsets: ["latin"] });
 const edu_VIC_WA_NT_Beginner = Edu_VIC_WA_NT_Beginner({
@@ -23,14 +25,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body
         className={cn(
           noto_Sans_Korean.className,
-          edu_VIC_WA_NT_Beginner.variable
+          edu_VIC_WA_NT_Beginner.variable,
+          "bg-[#F8F9FA] dark:bg-stone-900 text-[#333] dark:text-white"
         )}
       >
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ReactQueryProvider>
+            <AuthContextProvider>{children}</AuthContextProvider>
+          </ReactQueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
