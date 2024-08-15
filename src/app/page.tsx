@@ -1,19 +1,15 @@
-import MainNav from "@/components/ui/main-nav";
-import TwitterCard from "@/components/ui/twitter-card";
-import React from "react";
+import ConversationCard from '@/components/containers/ConversationCard'
+import React from 'react'
 
-const HomePage = () => {
+function HomePage() {
   return (
-    <main className="w-full h-full flex mx-auto min-h-screen flex-col items-center">
-      <MainNav />
-      <section className="">
-        <TwitterCard />
-        <TwitterCard />
-        <TwitterCard />
-        <TwitterCard />
-      </section>
-    </main>
-  );
-};
+    <section className="flex w-full flex-col gap-4">
+      <ConversationCard />
+      <ConversationCard />
+      <ConversationCard />
+      <ConversationCard />
+    </section>
+  )
+}
 
-export default HomePage;
+export default HomePage

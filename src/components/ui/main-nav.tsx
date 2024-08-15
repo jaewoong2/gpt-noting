@@ -1,28 +1,29 @@
-"use client";
-import Link from "next/link";
-import React from "react";
-import HomeIcon from "./icons/HomeIcon";
-import UserIcon from "./icons/UserIcon";
-import HeartIcon from "./icons/HeartIcon";
-import SearchIcon from "./icons/SearchIcon";
-import UserAvatar from "../containers/UserAvatar";
-import { ThemeToggle } from "./theme-toggle";
-import { buttonVariants } from "./button";
+'use client'
 
-const MainNav = () => {
+import Link from 'next/link'
+import React from 'react'
+import HomeIcon from './icons/HomeIcon'
+import UserIcon from './icons/UserIcon'
+import HeartIcon from './icons/HeartIcon'
+import SearchIcon from './icons/SearchIcon'
+import UserAvatar from '../containers/UserAvatar'
+import ThemeToggle from './theme-toggle'
+import { buttonVariants } from './button'
+
+function MainNav() {
   return (
-    <nav className="w-full h-14 flex justify-between items-center px-4 sticky top-0 backdrop-blur-lg">
-      <div className="font-Edu_VIC_WA_NT_Beginner font-bold underline text-gray-600 dark:text-white">
-        <Link href={""}>{process.env.NEXT_PUBLIC_LOGO_TEXT}</Link>
+    <nav className="sticky top-0 z-50 flex h-14 w-full items-center justify-between px-4 backdrop-blur-lg">
+      <div className="font-Edu_VIC_WA_NT_Beginner font-bold text-gray-600 underline dark:text-white">
+        <Link href="/#">{process.env.NEXT_PUBLIC_LOGO_TEXT}</Link>
       </div>
       <ul className="flex gap-4">
         <li>
           <Link
             className={buttonVariants({
-              variant: "ghost",
-              className: "hover:bg-slate-200 dark:hover:bg-accent",
+              variant: 'ghost',
+              className: 'hover:bg-slate-200 dark:hover:bg-accent',
             })}
-            href={"#"}
+            href="/#"
           >
             <HomeIcon
               strokeWidth={2}
@@ -33,10 +34,10 @@ const MainNav = () => {
         <li>
           <Link
             className={buttonVariants({
-              variant: "ghost",
-              className: "hover:bg-slate-200 dark:hover:bg-accent",
+              variant: 'ghost',
+              className: 'hover:bg-slate-200 dark:hover:bg-accent',
             })}
-            href={"#"}
+            href="/#"
           >
             <UserIcon
               strokeWidth={2}
@@ -47,10 +48,10 @@ const MainNav = () => {
         <li>
           <Link
             className={buttonVariants({
-              variant: "ghost",
-              className: "hover:bg-slate-200 dark:hover:bg-accent",
+              variant: 'ghost',
+              className: 'hover:bg-slate-200 dark:hover:bg-accent',
             })}
-            href={"#"}
+            href="/#"
           >
             <HeartIcon
               strokeWidth={2}
@@ -61,10 +62,10 @@ const MainNav = () => {
         <li>
           <Link
             className={buttonVariants({
-              variant: "ghost",
-              className: "hover:bg-slate-200 dark:hover:bg-accent",
+              variant: 'ghost',
+              className: 'hover:bg-slate-200 dark:hover:bg-accent',
             })}
-            href={"#"}
+            href="/#"
           >
             <SearchIcon
               strokeWidth={2}
@@ -78,7 +79,7 @@ const MainNav = () => {
         <UserAvatar />
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default MainNav;
+export default MainNav
