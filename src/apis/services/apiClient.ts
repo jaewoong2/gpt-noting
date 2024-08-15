@@ -1,23 +1,21 @@
-"use client"
+'use client'
 
-import { getCookie } from "cookies-next"
-import { string } from "zod"
+import { getCookie } from 'cookies-next'
 
-import { AuthValidationError } from "@/lib/error"
+import { AuthValidationError } from '@/lib/error'
+import { API_BASE_URL, ApiRequestConfig } from './api'
 
-import { API_BASE_URL, ApiRequestConfig } from "./api"
-
-export const http = async <T>(
+const http = async <T>(
   endpoint: string,
-  { method = "GET", headers = {}, stringfy = true, body }: ApiRequestConfig
+  { method = 'GET', headers = {}, stringfy = true, body }: ApiRequestConfig,
 ): Promise<T> => {
-  const token = getCookie("access_token")
+  const token = getCookie('access_token')
 
   const config: RequestInit = {
     method,
     headers: stringfy
       ? {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           ...headers,
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         }
@@ -38,19 +36,21 @@ export const http = async <T>(
 
     if (response.status === 401) {
       const errorData = await response.json()
-      throw new AuthValidationError(errorData, "로그인이 필요한 서비스 입니다.")
+      throw new AuthValidationError(errorData, '로그인이 필요한 서비스 입니다.')
     }
 
     if (!response.ok) {
       const errorData = await response.json()
-      throw new Error(errorData || "API request failed")
+      throw new Error(errorData || 'API request failed')
     }
 
     const data = await response.json()
 
     return data
   } catch (error) {
-    console.error("API Client Error:", error)
+    console.error('API Client Error:', error)
     throw error
   }
 }
+
+export { http }

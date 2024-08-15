@@ -1,39 +1,43 @@
-import { DefaultResponse, PageMetaDto, Post } from "@/types";
+import { DefaultResponse, PageMetaDto, Post } from '@/lib/type'
 
-import { GetAllOptions } from "./postService";
+export type GetAllOptions = {
+  type?: 'user' | 'group'
+  userid?: string
+  groupId?: string
+}
 
 export type GetPostsResponse = DefaultResponse<{
-  data: Post[];
-  meta: PageMetaDto | null;
-}>;
+  data: Post[]
+  meta: PageMetaDto | null
+}>
 
-export type GetPostDetailResponse = DefaultResponse<Post>;
+export type GetPostDetailResponse = DefaultResponse<Post>
 
 export interface UseInfiniteGetPostOptions {
-  initialPageParam?: { page: number };
-  enabled?: boolean;
-  initialData?: GetPostsResponse["data"];
-  options?: GetAllOptions;
+  initialPageParam?: { page: number }
+  enabled?: boolean
+  initialData?: GetPostsResponse['data']
+  options?: GetAllOptions
 }
 
 export type CreatePostBody = {
-  title: string;
-  description: string;
-  groupName: string;
-  images?: string[];
-  tags?: string[];
-};
+  title: string
+  description: string
+  groupName: string
+  images?: string[]
+  tags?: string[]
+}
 
 export type CreateDeleteResponse = DefaultResponse<{
-  data: { id: string };
-}>;
+  data: { id: string }
+}>
 
 export type CreatePostResponse = DefaultResponse<{
-  message: string;
-  error: null;
-  status: number;
-  success: boolean;
+  message: string
+  error: null
+  status: number
+  success: boolean
   data: {
-    id: string;
-  };
-}>;
+    id: string
+  }
+}>

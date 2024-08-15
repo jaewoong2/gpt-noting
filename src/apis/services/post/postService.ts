@@ -1,54 +1,49 @@
-import BaseService from "../baseService";
+import BaseService from '../baseService'
 import {
+  GetPostsResponse,
+  GetPostDetailResponse,
   CreatePostBody,
   CreatePostResponse,
-  GetPostDetailResponse,
-  GetPostsResponse,
-} from "./type";
-
-export type GetAllOptions = {
-  type?: "user" | "group";
-  userid?: string;
-  groupId?: string;
-};
+  GetAllOptions,
+} from './type'
 
 class PostService extends BaseService {
   async getAll(page?: number, options?: GetAllOptions) {
-    if (options?.type === "user") {
+    if (options?.type === 'user') {
       const result = await this.http<GetPostsResponse>(
-        `/api/posts/user?page=${page}&userId=${options.userid}`,
-        { cache: "no-cache", keepalive: false }
-      );
+        `/api/conversation/user?page=${page}&userId=${options.userid}`,
+        { cache: 'no-cache', keepalive: false },
+      )
 
-      return result;
+      return result
     }
 
     const result = await this.http<GetPostsResponse>(
-      `/api/posts?page=${page}`,
-      {}
-    );
+      `/api/conversation?page=${page}`,
+      {},
+    )
 
-    return result;
+    return result
   }
 
   get(id: string) {
-    return this.http<GetPostDetailResponse>(`/api/posts/${id}`, {});
+    return this.http<GetPostDetailResponse>(`/api/conversation/${id}`, {})
   }
 
   create(variables: CreatePostBody) {
-    return this.http<CreatePostResponse>("/api/posts", {
-      method: "post",
+    return this.http<CreatePostResponse>('/api/conversation', {
+      method: 'post',
       body: variables,
-    });
+    })
   }
 
   delete(postId: string) {
-    return this.http<CreatePostResponse>(`/api/posts/${postId}`, {
-      method: "DELETE",
-    });
+    return this.http<CreatePostResponse>(`/api/conversation/${postId}`, {
+      method: 'DELETE',
+    })
   }
 }
 
-const postService = new PostService();
+const postService = new PostService()
 
-export default postService;
+export default postService

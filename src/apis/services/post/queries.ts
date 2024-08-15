@@ -1,18 +1,19 @@
-"use client"
+'use client'
 
-import { UseMutationOptions } from "@tanstack/react-query"
+import { UseMutationOptions } from '@tanstack/react-query'
 
-import postService, { GetAllOptions } from "./postService"
+import postService from './postService'
 import {
   CreateDeleteResponse,
   CreatePostBody,
   CreatePostResponse,
+  GetAllOptions,
   GetPostsResponse,
-} from "./type"
+} from './type'
 
 const queryKeys = {
-  posts: (userId?: string) => ["posts", userId] as const,
-  detail: (id: string) => ["posts", id] as const,
+  posts: (userId?: string) => ['posts', userId] as const,
+  detail: (id: string) => ['posts', id] as const,
   //   detail: (photoId: number) => [...queryKeys.all, photoId] as const,
   //   detailComments: (photoId: number) =>
   //     [...queryKeys.detail(photoId), "comments"] as const,
@@ -30,16 +31,16 @@ const queryOptions = {
     queryKey: queryKeys.posts(options?.userid),
     queryFn: ({ pageParam }: { pageParam: { page: number } }) =>
       postService.getAll(pageParam.page, options),
-    getNextPageParam: (lastPage: GetPostsResponse) => {
-      return lastPage?.data?.meta?.hasNextPage
-        ? { page: lastPage?.data.meta.page + 1 }
-        : null
-    },
-    getPreviousPageParam: (firstPage: GetPostsResponse) => {
-      return firstPage?.data?.meta?.hasPreviousPage
-        ? { page: firstPage?.data.meta.page - 1 }
-        : null
-    },
+    getNextPageParam: (lastPage: GetPostsResponse) =>
+      lastPage?.data?.meta?.hasNextPage
+        ? // eslint-disable-next-line no-unsafe-optional-chaining
+          { page: lastPage?.data.meta.page + 1 }
+        : null,
+    getPreviousPageParam: (firstPage: GetPostsResponse) =>
+      firstPage?.data?.meta?.hasPreviousPage
+        ? // eslint-disable-next-line no-unsafe-optional-chaining
+          { page: firstPage?.data.meta.page - 1 }
+        : null,
   }),
 
   getDetail: (id: string) => ({
