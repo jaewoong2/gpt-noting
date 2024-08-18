@@ -31,10 +31,10 @@ type ModalContextType = {
   postId?: string
 }
 
-const modalContext = createContext<ModalContextType | null>(null)
+const ModalContext = createContext<ModalContextType | null>(null)
 
 const useModalContext = () => {
-  const context = useContext(modalContext)
+  const context = useContext(ModalContext)
 
   if (!context) {
     throw new Error('Needs Modal Context Provider')
@@ -70,7 +70,8 @@ function Modal({ postId, children, isModal = true }: PropsWithChildren<Props>) {
     return
   }
 
-  return <modalContext.Provider value={value}>{children}</modalContext.Provider>
+  // eslint-disable-next-line consistent-return
+  return <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
 }
 
 function ModalWrapper({
@@ -102,7 +103,6 @@ function ModalWrapper({
           {children}
         </div>
       </div>
-      {/* <ModalOverlay /> */}
     </div>
   )
 }
@@ -137,7 +137,9 @@ function ModalDescription({
       )}
       {...props}
     >
-      <Description>{post?.data.description}</Description>
+      <Description className="w-full dark:bg-[#1f1f1f]">
+        {post?.data.description}
+      </Description>
       {children}
     </div>
   )

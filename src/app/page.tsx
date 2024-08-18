@@ -1,13 +1,12 @@
-import ConversationCard from '@/components/containers/ConversationCard'
+import Conversations from '@/components/containers/Conversations'
 import React from 'react'
 
 function HomePage() {
   return (
     <section className="flex w-full flex-col gap-4">
-      <ConversationCard />
-      <ConversationCard />
-      <ConversationCard />
-      <ConversationCard />
+      <div className="py-10">
+        <Conversations />
+      </div>
     </section>
   )
 }

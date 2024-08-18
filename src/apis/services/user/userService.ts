@@ -1,11 +1,10 @@
-import { DefaultResponse, User } from "@/types"
-
-import BaseService from "../baseService"
+import { DefaultResponse, User } from '@/lib/type'
+import BaseService from '../baseService'
 
 class UserService extends BaseService {
   getMe(options?: RequestInit) {
     return this.http<DefaultResponse<User>>(`/api/users/me`, {
-      next: { tags: ["user"] },
+      next: { tags: ['user'] },
       ...options,
     })
   }

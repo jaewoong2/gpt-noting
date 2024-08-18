@@ -68,6 +68,7 @@ export interface Post {
   userId?: string // uuid, nullable
   user?: Partial<User> // 추가된 릴레이션
   id: string // uuid
+  is_public: boolean
   groupsId?: string // uuid, nullable
   group?: Partial<Group> // 추가된 릴레이션
   images?: Partial<Image>[]
@@ -117,6 +118,7 @@ export interface Tag {
   createdAt: string // timestamp without time zone
   updateAt: string // timestamp without time zone
   tag: string
+  name: string
   id: string // uuid
 }
 

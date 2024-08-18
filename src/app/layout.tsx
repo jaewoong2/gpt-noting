@@ -1,16 +1,19 @@
 import type { Metadata } from 'next'
-import { Edu_VIC_WA_NT_Beginner, Noto_Sans_KR } from 'next/font/google'
+import { Coming_Soon, Noto_Sans_KR } from 'next/font/google'
 import './globals.css'
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import AuthContextProvider from '@/components/providers/AuthContextProvider'
 import MainNav from '@/components/ui/main-nav'
+import Footer from '@/components/ui/footer'
+import { Toaster } from '@/components/ui/toaster'
 
 // const inter = Font.Inter({ subsets: ["latin"] });
-const LogoFont = Edu_VIC_WA_NT_Beginner({
+const LogoFont = Coming_Soon({
+  weight: '400',
   subsets: ['latin'],
-  variable: '--Edu_VIC_WA_NT_Beginner',
+  variable: '--Coming_Soon',
 })
 
 const NotoSansKr = Noto_Sans_KR({ subsets: ['latin'] })
@@ -44,6 +47,8 @@ export default function RootLayout({
                 {children}
                 {modal}
               </main>
+              <Toaster />
+              <Footer />
             </AuthContextProvider>
           </ReactQueryProvider>
         </ThemeProvider>

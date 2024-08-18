@@ -9,12 +9,19 @@ import SearchIcon from './icons/SearchIcon'
 import UserAvatar from '../containers/UserAvatar'
 import ThemeToggle from './theme-toggle'
 import { buttonVariants } from './button'
+import LogoIcon from './icons/LogoIcon'
+import { useAuthContext } from '../providers/AuthContextProvider'
 
 function MainNav() {
+  const { userName } = useAuthContext()
+
   return (
     <nav className="sticky top-0 z-50 flex h-14 w-full items-center justify-between px-4 backdrop-blur-lg">
       <div className="font-Edu_VIC_WA_NT_Beginner font-bold text-gray-600 underline dark:text-white">
-        <Link href="/#">{process.env.NEXT_PUBLIC_LOGO_TEXT}</Link>
+        {/* <Link href="/#">{process.env.NEXT_PUBLIC_LOGO_TEXT}</Link> */}
+        <Link href="/#">
+          <LogoIcon />
+        </Link>
       </div>
       <ul className="flex gap-4">
         <li>
@@ -23,7 +30,7 @@ function MainNav() {
               variant: 'ghost',
               className: 'hover:bg-slate-200 dark:hover:bg-accent',
             })}
-            href="/#"
+            href="/"
           >
             <HomeIcon
               strokeWidth={2}
@@ -37,7 +44,7 @@ function MainNav() {
               variant: 'ghost',
               className: 'hover:bg-slate-200 dark:hover:bg-accent',
             })}
-            href="/#"
+            href={`/${userName}`}
           >
             <UserIcon
               strokeWidth={2}
@@ -76,7 +83,9 @@ function MainNav() {
       </ul>
       <div className="flex gap-2">
         <ThemeToggle />
-        <UserAvatar />
+        <Link href={`/${userName}`}>
+          <UserAvatar />
+        </Link>
       </div>
     </nav>
   )

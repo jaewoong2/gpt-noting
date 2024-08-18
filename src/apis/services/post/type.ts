@@ -26,6 +26,7 @@ export type CreatePostBody = {
   groupName: string
   images?: string[]
   tags?: string[]
+  is_public: boolean
 }
 
 export type CreateDeleteResponse = DefaultResponse<{

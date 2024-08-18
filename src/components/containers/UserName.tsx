@@ -1,17 +1,18 @@
 'use client'
+
 import React from 'react'
 import { useAuthContext } from '../providers/AuthContextProvider'
 
-const UserName = ({
+function UserName({
   className,
   children,
   ...props
-}: JSX.IntrinsicElements['div']) => {
+}: JSX.IntrinsicElements['div'] & { userName?: string }) {
   const { userName } = useAuthContext()
 
   return (
     <div className={`text-sm ${className}`} {...props}>
-      @{userName}
+      {props.userName ?? userName}
     </div>
   )
 }

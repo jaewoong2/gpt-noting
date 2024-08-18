@@ -1,48 +1,76 @@
 'use client'
 
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
+import { Post } from '@/lib/type'
+import { getRelativeTime } from '@/lib/time'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import UserAvatar from './UserAvatar'
-import HeartIcon from '../ui/icons/HeartIcon'
-import Link from 'next/link'
 import DesriptionSkeleton from '../ui/description-skeleton'
 import UserName from './UserName'
+import { Badge } from '../ui/badge'
+import TransactionButtons from './TransactionButtons'
+
+type Props = {
+  title: string
+  id: string
+  tags: Post['tags']
+  createdAt: string
+  user: Post['user']
+  is_public: boolean
+}
 
 const Description = dynamic(
   () => import('@/components/containers/Description'),
   { loading: () => <DesriptionSkeleton />, ssr: true },
 )
 
-const createdAt = '2024.08.14'
-
-function ConversationCard() {
+function ConversationCard({
+  createdAt,
+  tags,
+  user,
+  title,
+  is_public,
+  id,
+  children,
+}: PropsWithChildren<Props>) {
   return (
     <div className="flex flex-col">
-      <div className="mx-auto flex w-[672px] flex-col gap-4 max-sm:w-full max-sm:gap-2">
+      <div className="mx-auto flex w-full max-w-xl flex-col gap-4 max-sm:w-full max-sm:gap-2">
         <div className="flex items-center gap-2">
-          <UserAvatar className="h-8 w-8 flex-shrink-0" />
+          <Link href={`/${user?.userName}`}>
+            <UserAvatar
+              className="h-8 w-8 flex-shrink-0"
+              avatar={user?.avatar}
+            />
+          </Link>
           <div>
-            <UserName />
-            <p className="text-xs">{createdAt}</p>
+            <Link href={`/${user?.userName}`}>
+              <UserName userName={user?.userName} />
+            </Link>
+            <p className="text-xs">{getRelativeTime(createdAt)}</p>
           </div>
         </div>
-        <Link
-          href="/post/b86b2108-1885-41bc-8326-ec96b880d273"
-          className="flex max-h-96 w-full max-sm:w-full max-sm:flex-col"
-        >
-          <Card className="w-full overflow-hidden rounded-xl dark:bg-zinc-900">
-            <CardHeader className="border-b pb-3">
-              <CardTitle>
-                <span>타이틀</span>
-              </CardTitle>
-              <p className="text-sm font-light text-gray-700 dark:text-white">
-                #tag
-              </p>
-            </CardHeader>
+        {/* 메인 등록 게시글 화면 */}
+        <Card className="w-full overflow-hidden rounded-xl dark:bg-[#1f1f1f]">
+          <CardHeader className="border-b pb-3">
+            <CardTitle>
+              <span>{title.split('] ')[1]}</span>
+            </CardTitle>
+            {tags?.map((tag) => (
+              <Badge className="w-fit text-xs" variant="secondary" key={tag.id}>
+                <Link href={`?tag=${tag.name}`}>{tag.name}</Link>
+              </Badge>
+            ))}
+          </CardHeader>
+          <Link
+            href={`/post/${id}`}
+            className="flex max-h-96 w-full max-sm:w-full max-sm:flex-col"
+          >
             <CardContent className="mt-2 min-h-40 w-full px-6">
               <Description
-                className="w-full dark:bg-zinc-900"
+                className="mt-6 w-full dark:bg-[#1f1f1f]"
                 rehypeRewrite={(node, _, parent) => {
                   if (
                     parent &&
@@ -58,19 +86,18 @@ function ConversationCard() {
                 }}
                 style={{ padding: 0 }}
               >
-                {process.env.NEXT_PUBLIC_EXAMPLE}
+                {children}
               </Description>
             </CardContent>
-          </Card>
-        </Link>
+          </Link>
+        </Card>
       </div>
-      <div className="mx-auto flex w-[672px] items-center justify-end gap-2 py-3">
-        <button type="button" className="group">
-          <HeartIcon
-            className="stroke-gray-600 transition-colors group-hover:fill-red-400 dark:stroke-white"
-            strokeWidth={2}
-          />
-        </button>
+      <div className="mx-auto flex w-full max-w-xl items-center justify-end gap-2 py-3">
+        <TransactionButtons
+          userId={user?.id}
+          postId={id}
+          is_public={is_public}
+        />
       </div>
     </div>
   )
