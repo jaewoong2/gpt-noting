@@ -10,12 +10,12 @@ type Props = {} & UseInfiniteGetPostOptions
 function Conversations({ ...props }: Props) {
   const { data } = useInfiniteGetPost({ ...props })
 
-  console.log(data)
-
   return (
-    <div>
-      {data.pages.map(({ data: post }, index) => (
-        <React.Fragment key={`${post.meta?.page}-${index}`}>
+    <div className="max-sm:px-4">
+      {data.pages.map(({ data: post }) => (
+        <React.Fragment
+          key={`${post.meta?.page}-${post.meta?.hasNextPage}-${post.meta?.total}`}
+        >
           {post.data.map(
             ({ title, id, description, createdAt, tags, user, is_public }) => (
               <ConversationCard

@@ -2,7 +2,6 @@ import React from 'react'
 
 type Props = React.SVGProps<SVGSVGElement>
 
-// eslint-disable-next-line react/prop-types
 function HeartIcon({ className, ...props }: Props) {
   return (
     <svg
@@ -11,8 +10,8 @@ function HeartIcon({ className, ...props }: Props) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      {...props}
       className={`size-6 ${className}`}
+      {...props}
     >
       <path
         strokeLinecap="round"

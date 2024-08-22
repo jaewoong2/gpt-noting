@@ -1,10 +1,9 @@
-"use client";
-import React, { useEffect } from "react";
+'use client'
 
-type Props = {};
+import React from 'react'
 
-const AuthPage = (props: Props) => {
-  return <div>Auth Page</div>;
-};
+function AuthPage() {
+  return <div>Auth Page</div>
+}
 
-export default AuthPage;
+export default AuthPage

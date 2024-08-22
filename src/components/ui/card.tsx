@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/heading-has-content */
+
 'use client'
 
 import * as React from 'react'

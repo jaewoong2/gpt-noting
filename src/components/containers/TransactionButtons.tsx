@@ -1,10 +1,14 @@
 'use client'
-import React from 'react'
+
+import React, { useState } from 'react'
+import {
+  useDeletePost,
+  useUpdatePost,
+} from '@/apis/services/post/usePostService'
 import { Button } from '../ui/button'
 import HeartIcon from '../ui/icons/HeartIcon'
 import { useAuthContext } from '../providers/AuthContextProvider'
-import { Switch } from '../ui/switch'
-import { useDeletePost } from '@/apis/services/post/usePostService'
+
 import {
   Dialog,
   DialogContent,
@@ -14,6 +18,9 @@ import {
   DialogTrigger,
 } from '../ui/dialog'
 import { useToast } from '../ui/use-toast'
+import TrashIcon from '../ui/icons/TrashIcon'
+import LockIcon from '../ui/icons/LockIcon'
+import UnLockIcon from '../ui/icons/UnLockIcon'
 
 type Props = {
   userId?: string
@@ -21,13 +28,15 @@ type Props = {
   is_public: boolean
 }
 
-const TransactionButtons = ({ userId, postId, is_public }: Props) => {
+function TransactionButtons({ userId, postId, is_public }: Props) {
+  const [IsPublic, setIsPublic] = useState(is_public)
   const loginUser = useAuthContext()
-  const { mutate } = useDeletePost()
+  const deletePost = useDeletePost()
+  const updatePost = useUpdatePost()
   const { toast } = useToast()
 
   const onClickDeleteButton = () => {
-    mutate(postId, {
+    deletePost.mutate(postId, {
       onSuccess() {
         toast({
           title: 'AI 응답을 삭제완료 하였습니다.',
@@ -36,24 +45,40 @@ const TransactionButtons = ({ userId, postId, is_public }: Props) => {
     })
   }
 
+  const onTogglePublicButton = () => {
+    setIsPublic((prev) => !prev)
+    updatePost.mutate({ id: postId, is_public: !is_public })
+  }
+
   return (
     <>
       {userId === loginUser.userId && (
-        <div className="flex w-full justify-between">
+        <div className="flex w-full items-center justify-end gap-2">
           <div className="flex items-center gap-2 text-xs">
-            {is_public ? '공개' : '비공개'}
-            <Switch checked={is_public} />
+            <button
+              type="button"
+              className="group flex items-center"
+              onClick={onTogglePublicButton}
+            >
+              {!IsPublic ? (
+                <LockIcon
+                  strokeWidth={2}
+                  className="stroke-gray-600 transition-colors group-hover:stroke-blue-500 dark:stroke-white"
+                />
+              ) : (
+                <UnLockIcon
+                  strokeWidth={2}
+                  className="stroke-gray-600 transition-colors group-hover:stroke-blue-500 dark:stroke-white"
+                />
+              )}
+            </button>
           </div>
           <Dialog>
-            <DialogTrigger>
-              <Button
-                type="button"
-                variant="outline"
-                size={'sm'}
-                className="text-xs"
-              >
-                삭제하기
-              </Button>
+            <DialogTrigger className="group flex items-center">
+              <TrashIcon
+                strokeWidth={2}
+                className="stroke-gray-600 transition-colors group-hover:fill-gray-400 dark:stroke-white"
+              />
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -67,7 +92,7 @@ const TransactionButtons = ({ userId, postId, is_public }: Props) => {
                 <Button
                   onClick={onClickDeleteButton}
                   className="px-6"
-                  variant={'destructive'}
+                  variant="destructive"
                 >
                   삭제
                 </Button>

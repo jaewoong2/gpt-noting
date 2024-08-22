@@ -1,5 +1,5 @@
-import Conversations from '@/components/containers/Conversations'
 import React from 'react'
+import Conversations from '@/components/containers/Conversations'
 
 function HomePage() {
   return (

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable @next/next/no-img-element */
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/ZXXB7Tv

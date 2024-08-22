@@ -12,8 +12,6 @@ type Props = {
 function UserAvatar({ className, children, ...props }: Props) {
   const { avatar, userName } = useAuthContext()
 
-  if (!(avatar || props.avatar)) return null
-
   return (
     <figure
       className={`h-10 w-10 overflow-hidden rounded-full border bg-white ${className}`}

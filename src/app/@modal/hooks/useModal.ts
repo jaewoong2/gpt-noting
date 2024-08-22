@@ -38,6 +38,7 @@ const useModal = ({ isModal }: { isModal: boolean }) => {
 
     const prevScrollY = preventScroll()
 
+    // eslint-disable-next-line consistent-return
     return () => {
       allowScroll(prevScrollY)
     }

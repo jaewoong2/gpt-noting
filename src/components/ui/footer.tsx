@@ -5,10 +5,12 @@ import LogoIcon from './icons/LogoIcon'
 function Footer() {
   return (
     <footer className="w-full border-t py-6">
-      <div className="container flex max-w-7xl flex-col items-center justify-center gap-20 sm:flex-row">
-        <LogoIcon />
-        <div className="flex items-center gap-4 text-sm text-black dark:text-white">
-          <p>&copy; 2024 noting.kr All rights reserved.</p>
+      <div className="flex w-full justify-center gap-10 max-sm:flex-col max-sm:items-start max-sm:justify-center max-sm:gap-2 max-sm:pl-8">
+        <div className="flex gap-10 max-sm:gap-2">
+          <LogoIcon />
+          <p className="text-sm">&copy; 2024 noting.kr All rights reserved.</p>
+        </div>
+        <div className="flex items-center justify-start gap-4 text-sm text-black dark:text-white">
           <Link href="/#" className="hover:underline" prefetch={false}>
             Privacy Policy
           </Link>

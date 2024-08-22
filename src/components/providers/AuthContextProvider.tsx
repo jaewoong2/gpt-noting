@@ -68,6 +68,8 @@ function AuthContextProvider({ children }: PropsWithChildren) {
   )
 
   useEffect(() => {
+    if (typeof chrome === 'undefined') return
+
     chrome?.runtime?.sendMessage(
       process.env.NEXT_PUBLIC_GOOGLE_EXTENSION_ID,
       {
