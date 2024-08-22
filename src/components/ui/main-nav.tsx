@@ -18,12 +18,11 @@ function MainNav() {
   return (
     <nav className="sticky top-0 z-50 flex h-14 w-full items-center justify-between px-4 backdrop-blur-lg">
       <div className="font-Edu_VIC_WA_NT_Beginner font-bold text-gray-600 underline dark:text-white">
-        {/* <Link href="/#">{process.env.NEXT_PUBLIC_LOGO_TEXT}</Link> */}
-        <Link href="/#">
+        <Link href="/#" className="">
           <LogoIcon />
         </Link>
       </div>
-      <ul className="flex gap-4">
+      <ul className="flex gap-4 max-sm:w-full max-sm:justify-end max-sm:gap-2">
         <li>
           <Link
             className={buttonVariants({
@@ -81,7 +80,7 @@ function MainNav() {
           </Link>
         </li>
       </ul>
-      <div className="flex gap-2">
+      <div className="flex gap-2 max-sm:hidden">
         <ThemeToggle />
         <Link href={`/${userName}`}>
           <UserAvatar />

@@ -3,16 +3,16 @@ import {
   useMutation,
   useQuery,
   useQueryClient,
-} from "@tanstack/react-query"
+} from '@tanstack/react-query'
 
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from '@/components/ui/use-toast'
 
-import postQueryOptions from "../../services/post/queries"
-import queryOptions from "./queries"
-import { LikePostResponse } from "./type"
+import postQueryOptions from '../post/queries'
+import queryOptions from './queries'
+import { LikePostResponse } from './type'
 
 export function useUnLikePost(
-  options?: UseMutationOptions<LikePostResponse, Error, string, unknown>
+  options?: UseMutationOptions<LikePostResponse, Error, string, unknown>,
 ) {
   const queryClient = useQueryClient()
 
@@ -34,7 +34,7 @@ export function useUnLikePost(
 }
 
 export function useLikePost(
-  options?: UseMutationOptions<LikePostResponse, Error, string, unknown>
+  options?: UseMutationOptions<LikePostResponse, Error, string, unknown>,
 ) {
   const queryClient = useQueryClient()
   const toast = useToast()
@@ -59,7 +59,7 @@ export function useLikePost(
       }
 
       toast.toast({
-        variant: "destructive",
+        variant: 'destructive',
         title: error.message,
         // className: "bg-red-500 text-white",
       })
@@ -68,7 +68,7 @@ export function useLikePost(
 }
 
 export function useGetLikes(
-  options?: Omit<ReturnType<typeof queryOptions.gets>, "queryFn" | "queryKey">
+  options?: Omit<ReturnType<typeof queryOptions.gets>, 'queryFn' | 'queryKey'>,
 ) {
   return useQuery({
     ...queryOptions.gets(),

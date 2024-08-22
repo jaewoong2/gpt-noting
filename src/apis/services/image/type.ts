@@ -1,4 +1,4 @@
-import { DefaultResponse } from "@/types"
+import { DefaultResponse } from '@/lib/type'
 
 export type CreateImageResponse = DefaultResponse<{
   $metadata: {

@@ -1,8 +1,5 @@
-import { DefaultResponse, Like, User } from "@/types"
-
-import { http as serverHttp } from "../api"
-import { http } from "../apiClient"
-import BaseService from "../baseService"
+import { DefaultResponse, Like, User } from '@/lib/type'
+import BaseService from '../baseService'
 
 class LikeService extends BaseService {
   // 좋아요 누른 포스트
@@ -18,13 +15,13 @@ class LikeService extends BaseService {
   // 포스트 좋아요 누르기
   like(postId: string) {
     return this.http<DefaultResponse<User>>(`/api/likes/post/${postId}`, {
-      method: "POST",
+      method: 'POST',
     })
   }
 
   unlike(postId: string) {
     return this.http<DefaultResponse<User>>(`/api/likes/post/${postId}`, {
-      method: "DELETE",
+      method: 'DELETE',
     })
   }
 }

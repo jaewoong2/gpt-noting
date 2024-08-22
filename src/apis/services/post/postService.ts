@@ -5,6 +5,7 @@ import {
   CreatePostBody,
   CreatePostResponse,
   GetAllOptions,
+  UpdatePostRequest,
 } from './type'
 
 class PostService extends BaseService {
@@ -40,6 +41,13 @@ class PostService extends BaseService {
   delete(postId: string) {
     return this.http<CreatePostResponse>(`/api/conversation/${postId}`, {
       method: 'DELETE',
+    })
+  }
+
+  update(post: UpdatePostRequest) {
+    return this.http<CreatePostResponse>(`/api/conversation/${post.id}`, {
+      method: 'PATCH',
+      body: post,
     })
   }
 }

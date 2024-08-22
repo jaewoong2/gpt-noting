@@ -1,11 +1,9 @@
-"use client"
+'use client'
 
-import { UseMutationOptions } from "@tanstack/react-query"
+import { UseMutationOptions } from '@tanstack/react-query'
 
-import imageService from "./imageService"
-import { CreateImageBody, CreateImageResponse } from "./type"
-
-const queryKeys = {}
+import imageService from './imageService'
+import { CreateImageBody, CreateImageResponse } from './type'
 
 const queryOptions = {
   create: (): UseMutationOptions<

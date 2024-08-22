@@ -9,6 +9,7 @@ import {
   CreatePostResponse,
   GetAllOptions,
   GetPostsResponse,
+  UpdatePostRequest,
 } from './type'
 
 const queryKeys = {
@@ -64,6 +65,15 @@ const queryOptions = {
     unknown
   > => ({
     mutationFn: (postId: string) => postService.delete(postId),
+  }),
+
+  update: (): UseMutationOptions<
+    CreateDeleteResponse,
+    Error,
+    UpdatePostRequest,
+    unknown
+  > => ({
+    mutationFn: (post: UpdatePostRequest) => postService.update(post),
   }),
 }
 

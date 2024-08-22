@@ -115,9 +115,6 @@ export interface RewardType {
 }
 
 export interface Tag {
-  createdAt: string // timestamp without time zone
-  updateAt: string // timestamp without time zone
-  tag: string
   name: string
   id: string // uuid
 }

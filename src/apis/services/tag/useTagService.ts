@@ -6,7 +6,7 @@ import queryOptions from './queries'
 function useGetTag(
   userId: string,
   options?: Omit<
-    UseQueryOptions<DefaultResponse<Tag | null>>,
+    UseQueryOptions<DefaultResponse<Tag[] | null>>,
     'queryFn' | 'queryKey'
   >,
 ) {

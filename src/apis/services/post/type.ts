@@ -13,6 +13,12 @@ export type GetPostsResponse = DefaultResponse<{
 
 export type GetPostDetailResponse = DefaultResponse<Post>
 
+export type UpdatePostRequest = Partial<Post> & { id: string }
+
+export type UpdatePostResponse = DefaultResponse<{
+  data: { id: string }
+}>
+
 export interface UseInfiniteGetPostOptions {
   initialPageParam?: { page: number }
   enabled?: boolean

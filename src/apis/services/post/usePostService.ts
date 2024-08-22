@@ -13,6 +13,7 @@ import {
   CreatePostBody,
   CreatePostResponse,
   GetPostDetailResponse,
+  UpdatePostRequest,
   UseInfiniteGetPostOptions,
 } from './type'
 
@@ -100,6 +101,28 @@ export function useDeletePost(
 
   return useMutation({
     ...queryOptions.delete(),
+    ...options,
+    onSuccess(data, variables, context) {
+      if (options?.onSuccess) {
+        options?.onSuccess(data, variables, context)
+      }
+      queryClient.invalidateQueries({ queryKey: queryOptions.get().queryKey })
+    },
+  })
+}
+
+export function useUpdatePost(
+  options?: UseMutationOptions<
+    CreateDeleteResponse,
+    Error,
+    UpdatePostRequest,
+    unknown
+  >,
+) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    ...queryOptions.update(),
     ...options,
     onSuccess(data, variables, context) {
       if (options?.onSuccess) {

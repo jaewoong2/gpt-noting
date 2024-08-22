@@ -1,12 +1,10 @@
-"use client"
+'use client'
 
-import { UseMutationOptions } from "@tanstack/react-query"
-
-import userService from "./userService"
+import userService from './userService'
 
 const queryKeys = {
-  getMe: ["getMe"] as const,
-  getUser: (user: string) => ["get", user],
+  getMe: ['getMe'] as const,
+  getUser: (user: string) => ['get', user],
   //   detail: (photoId: number) => [...queryKeys.all, photoId] as const,
   //   detailComments: (photoId: number) =>
   //     [...queryKeys.detail(photoId), "comments"] as const,

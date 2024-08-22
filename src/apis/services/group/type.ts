@@ -1,4 +1,4 @@
-import { DefaultResponse, Post, User } from "@/types"
+import { DefaultResponse, Post, User } from '@/lib/type'
 
 export type GetGroupResponse = DefaultResponse<{
   id: string

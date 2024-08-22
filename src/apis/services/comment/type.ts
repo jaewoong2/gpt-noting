@@ -1,4 +1,4 @@
-import { Comment, DefaultResponse } from "@/types"
+import { Comment, DefaultResponse } from '@/lib/type'
 
 export type GetCommentResponse = DefaultResponse<Comment[]>
 

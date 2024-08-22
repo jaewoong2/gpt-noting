@@ -1,16 +1,7 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query'
-import { DefaultResponse, User } from '@/types'
 
+import { DefaultResponse, User } from '@/lib/type'
 import queryOptions from './queries'
-
-const placeholdUser: User = {
-  avatar: 'https://images.prlc.kr/resized/images/jeans.png',
-  userName: 'Moooo-',
-  createdAt: new Date().toString(),
-  updateAt: new Date().toString(),
-  id: '',
-  rewards: [],
-}
 
 export function useUserGetMe(
   options?: Omit<
