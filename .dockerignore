@@ -1,0 +1,9 @@
+.idea
+.git
+.gitignore
+.dockerignore
+Dockerfile
+.env.local
+*.md
+deploy.sh
+*.tf

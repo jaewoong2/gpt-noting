@@ -10,5 +10,6 @@ services:
     environment:
       - NODE_ENV=production
       - PROJECT_NAME=gpt-archive-fe
-    # ports:
-    #   - "9000:8080"
+      - NEXT_SHARP_PATH=/app/node_modules/sharp
+    ports:
+      - "3000:3000"
