@@ -1,10 +1,14 @@
-import { DefaultResponse, Like, User } from '@/lib/type'
+import { DefaultResponse, User } from '@/lib/type'
 import BaseService from '../baseService'
+import { GetLikesResponse } from './type'
 
 class LikeService extends BaseService {
   // 좋아요 누른 포스트
-  getLikes() {
-    return this.http<DefaultResponse<Like[]>>(`/api/likes/user`, {})
+  getLikes(page?: number) {
+    return this.http<DefaultResponse<GetLikesResponse>>(
+      `/api/conversation/likes?page=${page}`,
+      {},
+    )
   }
 
   // 포스트에 좋아요 누른 사람들

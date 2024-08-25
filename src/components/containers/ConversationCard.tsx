@@ -64,7 +64,7 @@ function ConversationCard({
           </div>
         </Suspense>
         {/* 메인 등록 게시글 화면 */}
-        <Card className="w-full overflow-hidden rounded-xl dark:bg-[#1f1f1f]">
+        <Card className="w-full overflow-hidden rounded-xl shadow-none dark:bg-[#1f1f1f]">
           <CardHeader className="border-b pb-3">
             <CardTitle>
               <span>{title.split('] ')[1]}</span>

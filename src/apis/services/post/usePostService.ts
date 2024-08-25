@@ -13,6 +13,7 @@ import {
   CreatePostBody,
   CreatePostResponse,
   GetPostDetailResponse,
+  SearchPostsResponse,
   UpdatePostRequest,
   UseInfiniteGetPostOptions,
 } from './type'
@@ -29,6 +30,19 @@ const INITIAL_DATA = {
     status: 200,
   },
   pageParams: [{ page: 1 }],
+}
+
+export function useSearchPosts(
+  query?: string,
+  options?: Omit<
+    UseQueryOptions<SearchPostsResponse | null>,
+    'queryFn' | 'queryKey'
+  >,
+) {
+  return useQuery({
+    ...queryOptions.searchPosts(query),
+    ...options,
+  })
 }
 
 export function useInfiniteGetPost({

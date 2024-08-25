@@ -10,7 +10,19 @@ type Props = {
 } & JSX.IntrinsicElements['figure']
 
 function UserAvatar({ className, children, ...props }: Props) {
-  const { avatar, userName } = useAuthContext()
+  const auth = useAuthContext()
+
+  const avatar = props.avatar
+    ? props.avatar
+    : auth.avatar
+      ? auth.avatar
+      : 'https://images.prlc.kr/images/jeans.png'
+
+  const userName = props.userName
+    ? props.userName
+    : auth.userName
+      ? auth.userName
+      : 'Null'
 
   return (
     <figure
@@ -18,11 +30,12 @@ function UserAvatar({ className, children, ...props }: Props) {
       {...props}
     >
       <Image
-        src={props.avatar ?? avatar}
-        alt={props.userName ?? userName}
+        src={avatar}
+        alt={userName}
         width={40}
         height={40}
         className="h-full w-full"
+        loading="lazy"
       />
     </figure>
   )

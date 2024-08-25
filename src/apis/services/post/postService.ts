@@ -6,10 +6,32 @@ import {
   CreatePostResponse,
   GetAllOptions,
   UpdatePostRequest,
+  SearchPostsResponse,
 } from './type'
 
 class PostService extends BaseService {
+  // No page Get ALL Posts
+  async searchPosts(query?: string) {
+    const result = await this.http<SearchPostsResponse>(
+      `/api/conversation/search?query=${query}`,
+      {
+        cache: 'only-if-cached',
+      },
+    )
+
+    return result
+  }
+
   async getAll(page?: number, options?: GetAllOptions) {
+    if (options?.type === 'like') {
+      const result = await this.http<GetPostsResponse>(
+        `/api/conversation/likes?page=${page}`,
+        { cache: 'no-cache', keepalive: false },
+      )
+
+      return result
+    }
+
     if (options?.type === 'user') {
       const result = await this.http<GetPostsResponse>(
         `/api/conversation/user?page=${page}&userId=${options.userid}`,
@@ -21,7 +43,7 @@ class PostService extends BaseService {
 
     const result = await this.http<GetPostsResponse>(
       `/api/conversation?page=${page}`,
-      {},
+      { cache: 'no-store' },
     )
 
     return result

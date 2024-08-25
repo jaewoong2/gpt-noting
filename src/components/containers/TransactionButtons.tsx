@@ -5,6 +5,9 @@ import {
   useDeletePost,
   useUpdatePost,
 } from '@/apis/services/post/usePostService'
+import { useLikePost, useUnLikePost } from '@/apis/services/like/useLikeService'
+import { cn } from '@/lib/utils'
+import { useUserGetMe } from '@/apis/services/user/useUserService'
 import { Button } from '../ui/button'
 import HeartIcon from '../ui/icons/HeartIcon'
 import { useAuthContext } from '../providers/AuthContextProvider'
@@ -30,7 +33,10 @@ type Props = {
 
 function TransactionButtons({ userId, postId, is_public }: Props) {
   const [IsPublic, setIsPublic] = useState(is_public)
+  const likes = useLikePost()
+  const unlikes = useUnLikePost()
   const loginUser = useAuthContext()
+  const user = useUserGetMe({ gcTime: Infinity })
   const deletePost = useDeletePost()
   const updatePost = useUpdatePost()
   const { toast } = useToast()
@@ -48,6 +54,18 @@ function TransactionButtons({ userId, postId, is_public }: Props) {
   const onTogglePublicButton = () => {
     setIsPublic((prev) => !prev)
     updatePost.mutate({ id: postId, is_public: !is_public })
+  }
+
+  const isLike = user.data?.data?.likes.findIndex(
+    ({ post }) => post?.id === postId,
+  )
+
+  const onClickLikeButton = () => {
+    if (isLike) {
+      unlikes.mutate(postId)
+      return
+    }
+    likes.mutate(postId)
   }
 
   return (
@@ -80,7 +98,7 @@ function TransactionButtons({ userId, postId, is_public }: Props) {
                 className="stroke-gray-600 transition-colors group-hover:fill-gray-400 dark:stroke-white"
               />
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent overlay={false} className="z-[10000001]">
               <DialogHeader>
                 <DialogTitle>저장한 AI 응답을 삭제 하시겠습니까?</DialogTitle>
                 <DialogDescription>
@@ -103,7 +121,12 @@ function TransactionButtons({ userId, postId, is_public }: Props) {
       )}
       <button type="button" className="group">
         <HeartIcon
-          className="stroke-gray-600 transition-colors group-hover:fill-red-400 dark:stroke-white"
+          onClick={onClickLikeButton}
+          className={cn(
+            'stroke-gray-600 transition-colors dark:stroke-white',
+            !isLike && 'group-hover:fill-red-400',
+            isLike && 'fill-red-400 group-hover:fill-transparent',
+          )}
           strokeWidth={2}
         />
       </button>

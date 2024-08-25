@@ -17,6 +17,12 @@ import Description from '@/components/containers/Description'
 import { GetPostDetailResponse } from '@/apis/services/post/type'
 import { useGetPostDetail } from '@/apis/services/post/usePostService'
 import useModal from '../../hooks/useModal'
+import { Badge } from '@/components/ui/badge'
+import Link from 'next/link'
+import TransactionButtons from '@/components/containers/TransactionButtons'
+import Image from 'next/image'
+import { getRelativeTime, getYYYYMMDD } from '@/lib/time'
+import TooltipContainer from '@/components/ui/tooltip-container'
 
 type Props = {
   isModal?: boolean
@@ -83,16 +89,21 @@ function ModalWrapper({
   return (
     <div
       className={
-        isModal ? cn('fixed left-0 top-0 z-[1001] h-screen w-screen') : ''
+        isModal
+          ? cn(
+              'fixed left-0 top-0 z-[1001] h-screen w-screen overflow-auto bg-[#000000a4] py-10',
+              'max-md:px-6',
+            )
+          : ''
       }
       onClick={dismiss}
     >
-      <div className="relative z-[11] flex size-full items-center justify-center">
+      <div className="relative z-[11] flex items-center justify-center">
         <div
           className={cn(
-            'animate-fade-in max-h-[700px] min-h-[600px] w-[672px] max-w-2xl rounded-xl bg-white shadow-xl dark:bg-[#1f1f1f]',
+            'animate-fade-in min-h-[600px] w-full max-w-3xl rounded-xl bg-white shadow-xl dark:bg-[#1f1f1f]',
             !isOpen && 'animate-fade-out',
-            'max-sm:size-full max-sm:rounded-none',
+            'max-sm:size-full',
             'relative',
             className,
           )}
@@ -103,6 +114,7 @@ function ModalWrapper({
           {children}
         </div>
       </div>
+      {isModal && <ModalOverlay />}
     </div>
   )
 }
@@ -116,7 +128,7 @@ function ModalBottom({ className, ...props }: JSX.IntrinsicElements['div']) {
 
   return (
     <div
-      className={cn('relative rounded-b-xl border-t py-2', className)}
+      className={cn('relative rounded-b-xl border-t py-4', className)}
       {...props}
     />
   )
@@ -125,19 +137,19 @@ function ModalBottom({ className, ...props }: JSX.IntrinsicElements['div']) {
 function ModalDescription({
   className,
   children,
+  descriptionClassName,
   ...props
-}: JSX.IntrinsicElements['div'] & {}) {
+}: JSX.IntrinsicElements['div'] & { descriptionClassName?: string }) {
   const { post } = useModalContext()
 
   return (
-    <div
-      className={cn(
-        'h-[350px] w-full overflow-y-auto p-6 text-base',
-        className,
-      )}
-      {...props}
-    >
-      <Description className="w-full dark:bg-[#1f1f1f]">
+    <div className={cn('w-full p-6 text-base', className)} {...props}>
+      <div className="px-4 text-sm text-muted-foreground">
+        {getYYYYMMDD(post?.data.createdAt ?? '')}
+      </div>
+      <Description
+        className={cn('w-full dark:bg-[#1f1f1f]', descriptionClassName)}
+      >
         {post?.data.description}
       </Description>
       {children}
@@ -151,6 +163,11 @@ function ModalTitleForm({ className, ...props }: JSX.IntrinsicElements['div']) {
   return (
     <div className={cn('w-full', className)} {...props}>
       <h1>{post?.data.title}</h1>
+      {post?.data.tags?.map((tag) => (
+        <Badge className="w-fit text-xs" variant="secondary" key={tag.id}>
+          <Link href={`?tag=${tag.name}`}>{tag.name}</Link>
+        </Badge>
+      ))}
     </div>
   )
 }
@@ -160,21 +177,71 @@ function ModalHeader({
   children,
   ...props
 }: JSX.IntrinsicElements['div']) {
-  const { dismiss } = useModalContext()
+  const { dismiss, isModal, post } = useModalContext()
   // const loginUser = useAuthContext()
 
   return (
     <div
       className={cn(
-        'flex h-fit w-full items-center justify-between px-2 pt-2',
+        'flex h-fit w-full flex-col items-center justify-between px-2 pt-2',
         className,
       )}
       {...props}
     >
-      <Button variant="ghost" className="text-base" onClick={dismiss}>
-        <ArrowLeft />
-      </Button>
-      <div className="px-4">{children}</div>
+      <div className="flex w-full items-center justify-start gap-2 px-6 py-2">
+        <div className="flex w-full items-center gap-2">
+          <Image
+            className="rounded-full border bg-white"
+            src={post?.data.user?.avatar ?? ''}
+            alt={post?.data.user?.userName ?? ''}
+            width={40}
+            height={40}
+          />
+          <div>
+            <p className="text-sm">{post?.data.user?.userName}</p>
+            <p className="text-xs text-muted-foreground">
+              {getRelativeTime(post?.data.createdAt ?? '')}
+            </p>
+          </div>
+        </div>
+        {isModal && (
+          <TooltipContainer content={<p className="px-2 text-xs">닫기</p>}>
+            <Button
+              variant="ghost"
+              className="text-base text-muted-foreground"
+              onClick={dismiss}
+            >
+              &times;
+            </Button>
+          </TooltipContainer>
+        )}
+      </div>
+      <div className="w-full px-3">
+        <div className="px-4">{children}</div>
+      </div>
+    </div>
+  )
+}
+
+function ModalTransactionButtons({
+  className,
+  ...props
+}: JSX.IntrinsicElements['div']) {
+  const { post } = useModalContext()
+
+  if (!post) {
+    return null
+  }
+
+  return (
+    <div className={cn('w-full px-3', className)} {...props}>
+      <div className="flex w-full items-center justify-end gap-2 py-3">
+        <TransactionButtons
+          postId={post?.data.id}
+          is_public={post?.data.is_public ?? true}
+          userId={post?.data.user?.id}
+        />
+      </div>
     </div>
   )
 }
@@ -183,7 +250,7 @@ function ModalOverlay() {
   return (
     <div
       id="overlay"
-      className="absolute left-0 top-0 z-10 h-screen w-screen bg-[#0000002e]"
+      className="absolute left-0 top-0 z-[1001] w-full bg-[#00000050]"
     />
   )
 }
@@ -194,5 +261,6 @@ Modal.Description = ModalDescription
 Modal.TitleForm = ModalTitleForm
 Modal.Header = ModalHeader
 Modal.Overlay = ModalOverlay
+Modal.TransactionButtons = ModalTransactionButtons
 
 export default Modal

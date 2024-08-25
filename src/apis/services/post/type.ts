@@ -1,10 +1,14 @@
 import { DefaultResponse, PageMetaDto, Post } from '@/lib/type'
 
 export type GetAllOptions = {
-  type?: 'user' | 'group'
+  type?: 'user' | 'group' | 'like'
   userid?: string
   groupId?: string
 }
+
+export type SearchPostsResponse = DefaultResponse<
+  (Post & { snippet: string; matchSource: string })[]
+>
 
 export type GetPostsResponse = DefaultResponse<{
   data: Post[]

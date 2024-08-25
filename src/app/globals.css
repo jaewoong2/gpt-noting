@@ -69,3 +69,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .bg-patterns {
+    @apply bg-[#fdfdfd];
+    background-image: radial-gradient(#cdcdcd 0.5px, transparent 0.5px), radial-gradient(#cdcdcd 0.5px, #fdfdfd 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+  }
+
+  .bg-patterns-dark {
+    @apply bg-[#101010];
+    background-image: radial-gradient(#3e3e3e 0.5px, transparent 0.5px), radial-gradient(#3e3e3e 0.5px, #101010 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+  }
+}

@@ -4,7 +4,7 @@ import LogoIcon from './icons/LogoIcon'
 
 function Footer() {
   return (
-    <footer className="w-full border-t py-6">
+    <footer className="w-full border-t bg-white py-6 dark:bg-[#101010]">
       <div className="flex w-full justify-center gap-10 max-sm:flex-col max-sm:items-start max-sm:justify-center max-sm:gap-2 max-sm:pl-8">
         <div className="flex gap-10 max-sm:gap-2">
           <LogoIcon />

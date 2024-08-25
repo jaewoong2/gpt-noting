@@ -57,7 +57,7 @@ export interface Like {
   userId?: string // uuid, nullable
   user?: Partial<User> // 추가된 릴레이션
   postId?: string // uuid, nullable
-  post?: Partial<Post> // 추가된 릴레이션
+  post?: Post // 추가된 릴레이션
 }
 
 export interface Post {
@@ -127,7 +127,7 @@ export interface User {
   updateAt: string // timestamp without time zone
   id: string // uuid
   email?: string
-  rewards: Reward[]
+  likes: Like[]
 }
 
 export interface UserGroupsGroup {

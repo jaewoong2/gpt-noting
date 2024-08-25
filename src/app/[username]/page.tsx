@@ -5,6 +5,7 @@ import Conversations from '@/components/containers/Conversations'
 import { NextPageProps } from '@/lib/type'
 import Image from 'next/image'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import React from 'react'
 
 type Params = {
@@ -17,6 +18,11 @@ async function UserNamePage({ params }: NextPageProps<Params>) {
     type: 'user',
     userid: user.data?.id,
   })
+
+  if (!user.data?.id) {
+    notFound()
+  }
+
   const { avatar, userName } = user.data && user.data
   // const posts = usersPost.data.data
   const tags = await tagService.getTag(user.data?.id)
@@ -55,7 +61,10 @@ async function UserNamePage({ params }: NextPageProps<Params>) {
         </div>
       </div>
       <div className="py-10">
-        <Conversations options={{ userid: user.data?.id, type: 'user' }} />
+        <Conversations
+          initialData={usersPost.data}
+          options={{ userid: user.data?.id, type: 'user' }}
+        />
       </div>
     </div>
   )

@@ -3,19 +3,18 @@
 import Modal from '@/app/@modal/components/Modal'
 import { NextPageProps } from '@/lib/type'
 
-// const Modal = dynamic(() => import('@/app/@modal/components/Modal'), {
-//   loading: () => <div>로딩중</div>,
-//   ssr: true,
-// })
-
 function ViewPost({ params }: NextPageProps<{ postId: string }>) {
   return (
     <Modal postId={params.postId} isModal={false}>
-      <Modal.Wrapper className="m-4 h-full max-h-full w-full max-w-full bg-white shadow-lg">
-        <Modal.Header className="justify-start border-b p-4">
-          <Modal.TitleForm className="w-fit text-xl" />
+      <Modal.Wrapper className="m-4 h-full max-h-full w-full max-w-2xl bg-transparent shadow-none dark:bg-transparent">
+        <Modal.Header className="w-full justify-start border-b p-4">
+          <Modal.TitleForm className="w-full text-2xl" />
         </Modal.Header>
-        <Modal.Description className="h-full max-h-full overflow-y-visible py-0" />
+        <Modal.TransactionButtons className="" />
+        <Modal.Description
+          className="h-full max-h-full overflow-y-visible bg-transparent py-4"
+          descriptionClassName="!bg-transparent"
+        />
       </Modal.Wrapper>
     </Modal>
   )

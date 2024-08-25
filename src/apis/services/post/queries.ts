@@ -13,6 +13,7 @@ import {
 } from './type'
 
 const queryKeys = {
+  searchPosts: (query?: string) => ['posts', query],
   posts: (userId?: string) => ['posts', userId] as const,
   detail: (id: string) => ['posts', id] as const,
   //   detail: (photoId: number) => [...queryKeys.all, photoId] as const,
@@ -28,6 +29,13 @@ const queryKeys = {
 }
 
 const queryOptions = {
+  searchPosts: (query?: string) => {
+    return {
+      queryKey: queryKeys.searchPosts(query),
+      queryFn: () => postService.searchPosts(query),
+    }
+  },
+
   get: (options?: GetAllOptions) => ({
     queryKey: queryKeys.posts(options?.userid),
     queryFn: ({ pageParam }: { pageParam: { page: number } }) =>

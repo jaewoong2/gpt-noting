@@ -5,7 +5,7 @@ import React from 'react'
 
 function PageSkeletonCard() {
   return (
-    <div className="flex w-full flex-col">
+    <div className="my-10 flex w-full flex-col">
       <div className="mx-auto flex w-full max-w-xl flex-col gap-4 max-sm:w-full max-sm:gap-2">
         <div className="flex items-center gap-2">
           <Skeleton className="h-10 w-10 flex-shrink-0 rounded-full bg-zinc-300" />

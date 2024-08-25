@@ -15,10 +15,6 @@ export const metadata: Metadata = {
     template: '',
   },
   description: `Save The ChatGPT\`s Response `,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
@@ -47,7 +43,8 @@ export default function RootLayout({
         className={cn(
           NotoSansKr.className,
           LogoFont.variable,
-          'bg-[#F8F9FA] text-[#333] dark:bg-[#101010] dark:text-white',
+          // 'bg-[#F8F9FA] text-[#333] dark:bg-[#101010] dark:text-white',
+          'bg-patterns dark:bg-patterns-dark text-[#333] dark:text-white',
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
