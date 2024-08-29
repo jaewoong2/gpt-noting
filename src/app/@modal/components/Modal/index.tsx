@@ -8,21 +8,19 @@ import React, {
   useMemo,
   useState,
 } from 'react'
-import { ArrowLeft } from 'lucide-react'
-
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
 import Description from '@/components/containers/Description'
 import { GetPostDetailResponse } from '@/apis/services/post/type'
 import { useGetPostDetail } from '@/apis/services/post/usePostService'
-import useModal from '../../hooks/useModal'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import TransactionButtons from '@/components/containers/TransactionButtons'
 import Image from 'next/image'
 import { getRelativeTime, getYYYYMMDD } from '@/lib/time'
 import TooltipContainer from '@/components/ui/tooltip-container'
+import useModal from '../../hooks/useModal'
 
 type Props = {
   isModal?: boolean

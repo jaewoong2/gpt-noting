@@ -7,9 +7,15 @@ import { API_BASE_URL, ApiRequestConfig } from './api'
 
 const http = async <T>(
   endpoint: string,
-  { method = 'GET', headers = {}, stringfy = true, body }: ApiRequestConfig,
+  {
+    method = 'GET',
+    headers = {},
+    stringfy = true,
+    useCookie = true,
+    body,
+  }: ApiRequestConfig,
 ): Promise<T> => {
-  const token = getCookie('access_token')
+  const token = useCookie ? getCookie('access_token') : ''
 
   const config: RequestInit = {
     method,

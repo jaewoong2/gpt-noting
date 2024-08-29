@@ -120,7 +120,9 @@ export function useDeletePost(
       if (options?.onSuccess) {
         options?.onSuccess(data, variables, context)
       }
-      queryClient.invalidateQueries({ queryKey: queryOptions.get().queryKey })
+      queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey.includes('posts'),
+      })
     },
   })
 }
@@ -142,7 +144,9 @@ export function useUpdatePost(
       if (options?.onSuccess) {
         options?.onSuccess(data, variables, context)
       }
-      queryClient.invalidateQueries({ queryKey: queryOptions.get().queryKey })
+      queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey.includes('posts'),
+      })
     },
   })
 }

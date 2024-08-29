@@ -11,7 +11,7 @@ type Props = {} & UseInfiniteGetPostOptions
 function Conversations({ ...props }: Props) {
   const { data, fetchNextPage, hasNextPage } = useInfiniteGetPost({
     ...props,
-    enabled: !props.initialData,
+    // enabled: !props.initialData,
   })
 
   return (
@@ -44,4 +44,4 @@ function Conversations({ ...props }: Props) {
   )
 }
 
-export default Conversations
+export default React.memo(Conversations)

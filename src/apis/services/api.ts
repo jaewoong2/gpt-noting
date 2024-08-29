@@ -3,16 +3,26 @@ export interface ApiRequestConfig extends RequestInit {
   headers?: HeadersInit
   body?: any
   stringfy?: boolean
+  useCookie?: boolean
 }
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASEURL // 여기에 실제 API 기본 URL을 넣으세요
 
 export const http = async <T>(
   endpoint: string,
-  { method = 'GET', headers = {}, stringfy = true, body }: ApiRequestConfig,
+  {
+    method = 'GET',
+    headers = {},
+    stringfy = true,
+    useCookie = true,
+    body,
+  }: ApiRequestConfig,
 ): Promise<T> => {
-  const { cookies } = await import('next/headers')
-  const token = cookies().get('access_token')?.value
+  const { cookies } = useCookie
+    ? await import('next/headers')
+    : { cookies: null }
+
+  const token = cookies ? cookies().get('access_token')?.value : ''
 
   const config: RequestInit = {
     method,
@@ -36,7 +46,6 @@ export const http = async <T>(
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config)
-
     const data = await response.json()
 
     return data

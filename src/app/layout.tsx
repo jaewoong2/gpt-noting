@@ -1,6 +1,6 @@
 import { Coming_Soon, Noto_Sans_KR } from 'next/font/google'
-import './globals.css'
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import AuthContextProvider from '@/components/providers/AuthContextProvider'
@@ -8,6 +8,8 @@ import MainNav from '@/components/ui/main-nav'
 import Footer from '@/components/ui/footer'
 import { Toaster } from '@/components/ui/toaster'
 import { Metadata } from 'next'
+
+import './globals.css'
 
 export const metadata: Metadata = {
   title: {
@@ -39,6 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <link rel="canonical" href="https://noting.prlc.kr" />
       <body
         className={cn(
           NotoSansKr.className,
@@ -61,6 +64,10 @@ export default function RootLayout({
           </ReactQueryProvider>
         </ThemeProvider>
       </body>
+      {process.env.NODE_ENV !== 'development' &&
+        process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
     </html>
   )
 }

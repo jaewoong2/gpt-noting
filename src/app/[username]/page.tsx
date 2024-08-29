@@ -24,7 +24,7 @@ async function UserNamePage({ params }: NextPageProps<Params>) {
   }
 
   const { avatar, userName } = user.data && user.data
-  // const posts = usersPost.data.data
+
   const tags = await tagService.getTag(user.data?.id)
 
   return (

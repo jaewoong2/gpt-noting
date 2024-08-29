@@ -42,7 +42,7 @@ const useModal = ({ isModal }: { isModal: boolean }) => {
     return () => {
       allowScroll(prevScrollY)
     }
-  }, [])
+  }, [isModal])
 
   return {
     isOpen,

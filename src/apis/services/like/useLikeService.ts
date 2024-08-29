@@ -8,6 +8,7 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 
 import postQueryOptions from '../post/queries'
+import userQueryOptions from '../user/queries'
 import queryOptions from './queries'
 import { LikePostResponse } from './type'
 
@@ -28,6 +29,9 @@ export function useUnLikePost(
       })
       queryClient.invalidateQueries({
         queryKey: queryOptions.gets().queryKey,
+      })
+      queryClient.invalidateQueries({
+        queryKey: userQueryOptions.getMe().queryKey,
       })
     },
   })
@@ -51,6 +55,9 @@ export function useLikePost(
       })
       queryClient.invalidateQueries({
         queryKey: queryOptions.gets().queryKey,
+      })
+      queryClient.invalidateQueries({
+        queryKey: userQueryOptions.getMe().queryKey,
       })
     },
     onError(error, variables, context) {

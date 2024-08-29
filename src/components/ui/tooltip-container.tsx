@@ -10,7 +10,7 @@ type Props = {
   content: React.ReactNode
 }
 
-const TooltipContainer = ({ children, content }: PropsWithChildren<Props>) => {
+function TooltipContainer({ children, content }: PropsWithChildren<Props>) {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={400}>

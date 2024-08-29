@@ -24,7 +24,6 @@ import useDebounceCallback from '@/hooks/useDebounceCallback'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getRelativeTime } from '@/lib/time'
-import { useRouter } from 'next/navigation'
 import useModal from '../hooks/useModal'
 
 const FormSchema = z.object({
@@ -33,7 +32,7 @@ const FormSchema = z.object({
   }),
 })
 
-const SearchModalPage = () => {
+function SearchModalPage() {
   const { isOpen, dismiss } = useModal({ isModal: true })
   const [query, setQuery] = useState('')
   const debounceSetQuery = useDebounceCallback(setQuery, 500)
@@ -45,7 +44,7 @@ const SearchModalPage = () => {
   })
 
   const { data } = useSearchPosts(query, {
-    enabled: query ? true : false,
+    enabled: !!query,
   })
 
   useEffect(() => {
@@ -54,7 +53,7 @@ const SearchModalPage = () => {
         debounceSetQuery(event.target.value)
       },
     })
-  }, [])
+  }, [debounceSetQuery, form.control])
 
   return (
     <Dialog
@@ -66,10 +65,7 @@ const SearchModalPage = () => {
         }
       }}
     >
-      <DialogContent
-        overlay={true}
-        className="top-[80px] z-[10000001] translate-y-0"
-      >
+      <DialogContent overlay className="top-[80px] z-[10000001] translate-y-0">
         <DialogHeader>
           <DialogTitle>
             <div className="flex items-center gap-2">

@@ -1,13 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   useDeletePost,
   useUpdatePost,
 } from '@/apis/services/post/usePostService'
 import { useLikePost, useUnLikePost } from '@/apis/services/like/useLikeService'
 import { cn } from '@/lib/utils'
-import { useUserGetMe } from '@/apis/services/user/useUserService'
 import { Button } from '../ui/button'
 import HeartIcon from '../ui/icons/HeartIcon'
 import { useAuthContext } from '../providers/AuthContextProvider'
@@ -32,68 +31,73 @@ type Props = {
 }
 
 function TransactionButtons({ userId, postId, is_public }: Props) {
-  const [IsPublic, setIsPublic] = useState(is_public)
-  const likes = useLikePost()
-  const unlikes = useUnLikePost()
-  const loginUser = useAuthContext()
-  const user = useUserGetMe({ gcTime: Infinity })
-  const deletePost = useDeletePost()
-  const updatePost = useUpdatePost()
+  const [isPublic, setIsPublic] = useState(is_public)
+  const [isLike, setIsLike] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const { mutate: likePost } = useLikePost()
+  const { mutate: unlikePost } = useUnLikePost()
+
+  const { userId: loggedInUserId, likes: userLikes } = useAuthContext()
+  const { mutate: deletePostMutation } = useDeletePost()
+  const { mutate: updatePostMutation } = useUpdatePost()
+
   const { toast } = useToast()
 
-  const onClickDeleteButton = () => {
-    deletePost.mutate(postId, {
+  const handleDelete = () => {
+    deletePostMutation(postId, {
       onSuccess() {
-        toast({
-          title: 'AI 응답을 삭제완료 하였습니다.',
-        })
+        toast({ title: 'AI 응답을 삭제완료 하였습니다.' })
+      },
+      onSettled() {
+        setOpen(false)
       },
     })
   }
 
-  const onTogglePublicButton = () => {
-    setIsPublic((prev) => !prev)
-    updatePost.mutate({ id: postId, is_public: !is_public })
+  const handleTogglePublic = () => {
+    const newIsPublic = !isPublic
+    setIsPublic(newIsPublic)
+    updatePostMutation({ id: postId, is_public: newIsPublic })
   }
 
-  const isLike = user.data?.data?.likes.findIndex(
-    ({ post }) => post?.id === postId,
-  )
-
-  const onClickLikeButton = () => {
+  const handleLikeToggle = () => {
     if (isLike) {
-      unlikes.mutate(postId)
-      return
+      unlikePost(postId, { onSuccess: () => setIsLike(false) })
+    } else {
+      likePost(postId, { onSuccess: () => setIsLike(true) })
     }
-    likes.mutate(postId)
   }
+
+  useEffect(() => {
+    setIsLike(userLikes?.some(({ post }) => post?.id === postId) ?? false)
+  }, [userLikes, postId])
 
   return (
     <>
-      {userId === loginUser.userId && (
+      {userId === loggedInUserId && (
         <div className="flex w-full items-center justify-end gap-2">
-          <div className="flex items-center gap-2 text-xs">
-            <button
-              type="button"
-              className="group flex items-center"
-              onClick={onTogglePublicButton}
-            >
-              {!IsPublic ? (
-                <LockIcon
-                  strokeWidth={2}
-                  className="stroke-gray-600 transition-colors group-hover:stroke-blue-500 dark:stroke-white"
-                />
-              ) : (
-                <UnLockIcon
-                  strokeWidth={2}
-                  className="stroke-gray-600 transition-colors group-hover:stroke-blue-500 dark:stroke-white"
-                />
-              )}
-            </button>
-          </div>
-          <Dialog>
+          <button
+            type="button"
+            className="group flex items-center"
+            onClick={handleTogglePublic}
+          >
+            {isPublic ? (
+              <UnLockIcon
+                strokeWidth={2}
+                className="stroke-gray-600 transition-colors group-hover:stroke-blue-500 dark:stroke-white"
+              />
+            ) : (
+              <LockIcon
+                strokeWidth={2}
+                className="stroke-gray-600 transition-colors group-hover:stroke-blue-500 dark:stroke-white"
+              />
+            )}
+          </button>
+          <Dialog open={open}>
             <DialogTrigger className="group flex items-center">
               <TrashIcon
+                onClick={() => setOpen(true)}
                 strokeWidth={2}
                 className="stroke-gray-600 transition-colors group-hover:fill-gray-400 dark:stroke-white"
               />
@@ -108,7 +112,7 @@ function TransactionButtons({ userId, postId, is_public }: Props) {
               <div className="flex w-full items-center justify-end gap-2">
                 <Button className="px-6">취소</Button>
                 <Button
-                  onClick={onClickDeleteButton}
+                  onClick={handleDelete}
                   className="px-6"
                   variant="destructive"
                 >
@@ -119,14 +123,12 @@ function TransactionButtons({ userId, postId, is_public }: Props) {
           </Dialog>
         </div>
       )}
-      <button type="button" className="group">
+      <button type="button" className="group" onClick={handleLikeToggle}>
         <HeartIcon
-          onClick={onClickLikeButton}
-          className={cn(
-            'stroke-gray-600 transition-colors dark:stroke-white',
-            !isLike && 'group-hover:fill-red-400',
-            isLike && 'fill-red-400 group-hover:fill-transparent',
-          )}
+          className={cn('stroke-gray-600 transition-colors dark:stroke-white', {
+            'group-hover:fill-red-400': !isLike,
+            'fill-red-400 group-hover:fill-transparent': isLike,
+          })}
           strokeWidth={2}
         />
       </button>

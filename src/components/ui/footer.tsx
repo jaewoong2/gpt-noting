@@ -11,10 +11,22 @@ function Footer() {
           <p className="text-sm">&copy; 2024 noting.kr All rights reserved.</p>
         </div>
         <div className="flex items-center justify-start gap-4 text-sm text-black dark:text-white">
-          <Link href="/#" className="hover:underline" prefetch={false}>
+          <Link
+            href="https://woongsworld.notion.site/Noting-c542fa69e554458bb3283f639b2a2f00"
+            className="hover:underline"
+            prefetch={false}
+            target="_blank"
+            referrerPolicy="no-referrer"
+          >
             Privacy Policy
           </Link>
-          <Link href="/#" className="hover:underline" prefetch={false}>
+          <Link
+            href="https://woongsworld.notion.site/Noting-c542fa69e554458bb3283f639b2a2f00"
+            className="hover:underline"
+            prefetch={false}
+            target="_blank"
+            referrerPolicy="no-referrer"
+          >
             Terms of Service
           </Link>
         </div>

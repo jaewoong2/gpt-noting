@@ -2,6 +2,8 @@ import React from 'react'
 import Conversations from '@/components/containers/Conversations'
 import postService from '@/apis/services/post/postService'
 
+export const revalidate = 60
+
 async function HomePage() {
   const posts = await postService.getAll(1)
 

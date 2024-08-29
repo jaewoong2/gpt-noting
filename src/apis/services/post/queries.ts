@@ -29,15 +29,13 @@ const queryKeys = {
 }
 
 const queryOptions = {
-  searchPosts: (query?: string) => {
-    return {
-      queryKey: queryKeys.searchPosts(query),
-      queryFn: () => postService.searchPosts(query),
-    }
-  },
+  searchPosts: (query?: string) => ({
+    queryKey: queryKeys.searchPosts(query),
+    queryFn: () => postService.searchPosts(query),
+  }),
 
   get: (options?: GetAllOptions) => ({
-    queryKey: queryKeys.posts(options?.userid),
+    queryKey: queryKeys.posts(`${options?.userid}-${options?.type}`),
     queryFn: ({ pageParam }: { pageParam: { page: number } }) =>
       postService.getAll(pageParam.page, options),
     getNextPageParam: (lastPage: GetPostsResponse) =>

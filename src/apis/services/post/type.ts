@@ -4,6 +4,7 @@ export type GetAllOptions = {
   type?: 'user' | 'group' | 'like'
   userid?: string
   groupId?: string
+  useCookie?: boolean
 }
 
 export type SearchPostsResponse = DefaultResponse<

@@ -1,5 +1,7 @@
 'use client'
 
+import { useUserGetMe } from '@/apis/services/user/useUserService'
+import { User } from '@/lib/type'
 import { setCookie } from 'cookies-next'
 import React, {
   createContext,
@@ -33,6 +35,7 @@ type AuthContextType = {
   email: string
   isPublic: boolean
   userId: string
+  likes?: User['likes']
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -54,6 +57,7 @@ function AuthContextProvider({ children }: PropsWithChildren) {
   const [userId, setUserId] = useState('')
   const [email, setEmail] = useState('')
   const [isPublic, setIsPublic] = useState(true)
+  const user = useUserGetMe({ enabled: !!accessToken })
 
   const value = useMemo(
     (): AuthContextType => ({
@@ -63,8 +67,17 @@ function AuthContextProvider({ children }: PropsWithChildren) {
       isPublic,
       userName,
       userId,
+      likes: user.data?.data?.likes,
     }),
-    [accessToken, avatar, email, isPublic, userName, userId],
+    [
+      accessToken,
+      avatar,
+      email,
+      isPublic,
+      userName,
+      userId,
+      user.data?.data?.likes,
+    ],
   )
 
   useEffect(() => {
@@ -88,6 +101,15 @@ function AuthContextProvider({ children }: PropsWithChildren) {
       },
     )
   }, [])
+
+  useEffect(() => {
+    if (user.isSuccess && user.data.data) {
+      setAvatar(user.data.data.avatar)
+      setUserName(user.data.data.userName)
+      setEmail(user.data.data.email ?? '')
+      setUserId(user.data.data.id)
+    }
+  }, [user.data?.data, user.isSuccess])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

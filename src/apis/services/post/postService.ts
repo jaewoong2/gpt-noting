@@ -15,7 +15,7 @@ class PostService extends BaseService {
     const result = await this.http<SearchPostsResponse>(
       `/api/conversation/search?query=${query}`,
       {
-        cache: 'only-if-cached',
+        next: { tags: ['posts'] },
       },
     )
 
@@ -26,7 +26,7 @@ class PostService extends BaseService {
     if (options?.type === 'like') {
       const result = await this.http<GetPostsResponse>(
         `/api/conversation/likes?page=${page}`,
-        { cache: 'no-cache', keepalive: false },
+        { next: { tags: ['posts'] } },
       )
 
       return result
@@ -35,7 +35,10 @@ class PostService extends BaseService {
     if (options?.type === 'user') {
       const result = await this.http<GetPostsResponse>(
         `/api/conversation/user?page=${page}&userId=${options.userid}`,
-        { cache: 'no-cache', keepalive: false },
+        {
+          useCookie: true,
+          next: { tags: ['posts'] },
+        },
       )
 
       return result
@@ -43,7 +46,11 @@ class PostService extends BaseService {
 
     const result = await this.http<GetPostsResponse>(
       `/api/conversation?page=${page}`,
-      { cache: 'no-store' },
+      {
+        useCookie: false,
+        next: { tags: ['posts'] },
+        // next: { revalidate: 300, tags: ['posts', `${page}`] },
+      },
     )
 
     return result
@@ -61,16 +68,26 @@ class PostService extends BaseService {
   }
 
   delete(postId: string) {
-    return this.http<CreatePostResponse>(`/api/conversation/${postId}`, {
-      method: 'DELETE',
-    })
+    const result = this.http<CreatePostResponse>(
+      `/api/conversation/${postId}`,
+      {
+        method: 'DELETE',
+      },
+    )
+
+    return result
   }
 
-  update(post: UpdatePostRequest) {
-    return this.http<CreatePostResponse>(`/api/conversation/${post.id}`, {
-      method: 'PATCH',
-      body: post,
-    })
+  async update(post: UpdatePostRequest) {
+    const result = await this.http<CreatePostResponse>(
+      `/api/conversation/${post.id}`,
+      {
+        method: 'PATCH',
+        body: post,
+      },
+    )
+
+    return result
   }
 }
 

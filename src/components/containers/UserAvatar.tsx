@@ -12,17 +12,9 @@ type Props = {
 function UserAvatar({ className, children, ...props }: Props) {
   const auth = useAuthContext()
 
-  const avatar = props.avatar
-    ? props.avatar
-    : auth.avatar
-      ? auth.avatar
-      : 'https://images.prlc.kr/images/jeans.png'
-
-  const userName = props.userName
-    ? props.userName
-    : auth.userName
-      ? auth.userName
-      : 'Null'
+  const avatar =
+    props.avatar || auth.avatar || 'https://images.prlc.kr/images/jeans.png'
+  const userName = props.userName || auth.userName || 'Null'
 
   return (
     <figure
