@@ -58,16 +58,14 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
-          # Load environment variables
-          set -o allexport
-          source .env
-          set +o allexport
+          export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          export IMAGE_TAG=latest
 
-          # Build and push the Docker image using docker-compose
           docker-compose build
           docker-compose push
 
       - name: Delete Artifact
+        if: always() # Ensures this step always runs
         uses: geekyeggo/delete-artifact@v1
         with:
           name: env-file
