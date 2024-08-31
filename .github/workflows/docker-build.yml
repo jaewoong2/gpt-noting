@@ -58,14 +58,14 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS...
-          # BUILD_ARGS=$(awk -F= '{print "--build-arg " $1 "=" $2}' .env | xargs)
-          # docker build $BUILD_ARGS -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          # Load environment variables
+          set -o allexport
+          source .env
+          set +o allexport
+
+          # Build and push the Docker image using docker-compose
+          docker-compose build
+          docker-compose push
 
       - name: Delete Artifact
         uses: geekyeggo/delete-artifact@v1
