@@ -3,6 +3,7 @@ FROM node:18.17-alpine AS base
 # Install dependencies needed for certain node modules
 RUN apk add --no-cache --virtual .gyp python3 make g++ \
     && apk del .gyp
+RUN apk add --no-cache python3 py3-pip && pip install awscli
 
 RUN apk add --update --no-cache python3 build-base gcc && ln -sf /usr/bin/python3 /usr/bin/python
 
@@ -30,7 +31,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-
 RUN npm run build
 
 FROM base AS runner
@@ -49,6 +49,9 @@ RUN chown nextjs:nodejs .next
 
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/upload-to-s3.sh ./upload-to-s3.sh
+RUN sh ./upload-to-s3.sh
+
 
 ### aws-lambda-adapter
 COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.6.0 /lambda-adapter /opt/extensions/lambda-adapter
