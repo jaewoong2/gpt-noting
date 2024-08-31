@@ -4,7 +4,7 @@ services:
     platform: linux/amd64
     image: 849441246713.dkr.ecr.ap-northeast-2.amazonaws.com/chrome-extension-frontend-ecr:latest
     build:
-      contenxt: .
+      context: .
       dockerfile: Dockerfile
       args:
         PROJECT_NAME: gpt-archive-fe
