@@ -61,8 +61,9 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS...
-          BUILD_ARGS=$(awk -F= '{print "--build-arg " $1 "=" $2}' .env | xargs)
-          docker build $BUILD_ARGS -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          # BUILD_ARGS=$(awk -F= '{print "--build-arg " $1 "=" $2}' .env | xargs)
+          # docker build $BUILD_ARGS -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
