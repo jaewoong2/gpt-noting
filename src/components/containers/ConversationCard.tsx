@@ -76,6 +76,7 @@ function ConversationCard({
             ))}
           </CardHeader>
           <Link
+          
             href={`/post/${id}`}
             className="flex max-h-96 w-full max-sm:w-full max-sm:flex-col"
           >
@@ -83,6 +84,7 @@ function ConversationCard({
               <Suspense fallback={<DesriptionSkeleton />}>
                 <Description
                   className="mt-6 w-full dark:bg-[#1f1f1f]"
+                  disallowedElements={["a"]}
                   rehypeRewrite={(node, _, parent) => {
                     if (
                       parent &&

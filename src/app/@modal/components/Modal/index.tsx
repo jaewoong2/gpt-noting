@@ -91,6 +91,7 @@ function ModalWrapper({
           ? cn(
               'fixed left-0 top-0 z-[1001] h-screen w-screen overflow-auto bg-[#000000a4] py-10',
               'max-md:px-6',
+              'max-sm:px-2'
             )
           : ''
       }
@@ -142,7 +143,7 @@ function ModalDescription({
 
   return (
     <div className={cn('w-full p-6 text-base', className)} {...props}>
-      <div className="px-4 text-sm text-muted-foreground">
+      <div className="px-4 text-sm text-muted-foreground max-sm:px-2">
         {getYYYYMMDD(post?.data.createdAt ?? '')}
       </div>
       <Description
@@ -162,7 +163,7 @@ function ModalTitleForm({ className, ...props }: JSX.IntrinsicElements['div']) {
     <div className={cn('w-full', className)} {...props}>
       <h1>{post?.data.title}</h1>
       {post?.data.tags?.map((tag) => (
-        <Badge className="w-fit text-xs" variant="secondary" key={tag.id}>
+        <Badge className="w-fit text-xs" variant="secondary" key={tag.name}>
           <Link href={`?tag=${tag.name}`}>{tag.name}</Link>
         </Badge>
       ))}
@@ -186,15 +187,15 @@ function ModalHeader({
       )}
       {...props}
     >
-      <div className="flex w-full items-center justify-start gap-2 px-6 py-2">
+      <div className="flex w-full items-center justify-start gap-2 px-6 py-2 max-sm:px-2 max-sm:py-3">
         <div className="flex w-full items-center gap-2">
-          <Image
+         {post?.data.user?.avatar && <Image
             className="rounded-full border bg-white"
             src={post?.data.user?.avatar ?? ''}
             alt={post?.data.user?.userName ?? ''}
             width={40}
             height={40}
-          />
+          />}
           <div>
             <p className="text-sm">{post?.data.user?.userName}</p>
             <p className="text-xs text-muted-foreground">
@@ -215,7 +216,7 @@ function ModalHeader({
         )}
       </div>
       <div className="w-full px-3">
-        <div className="px-4">{children}</div>
+        <div className="px-4 max-sm:p-0">{children}</div>
       </div>
     </div>
   )

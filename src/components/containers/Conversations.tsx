@@ -4,6 +4,7 @@ import { useInfiniteGetPost } from '@/apis/services/post/usePostService'
 import React from 'react'
 import { UseInfiniteGetPostOptions } from '@/apis/services/post/type'
 import { motion } from 'framer-motion'
+import useMount from '@/hooks/useMount'
 import ConversationCard from './ConversationCard'
 
 type Props = {} & UseInfiniteGetPostOptions
@@ -13,6 +14,11 @@ function Conversations({ ...props }: Props) {
     ...props,
     // enabled: !props.initialData,
   })
+  const isMount = useMount()
+
+  if (!isMount) return null
+
+
 
   return (
     <div className="max-sm:px-4">
