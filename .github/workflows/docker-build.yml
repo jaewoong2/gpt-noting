@@ -56,7 +56,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: latest
         run: |
           # Build a docker container and
           # push it to ECR so that it can
@@ -74,7 +74,7 @@ jobs:
       - name: Deploy to Lambda
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: latest
         run: |
           FUNCTION_EXISTS=$(aws lambda get-function --function-name $AWS_FUNCTION_NAME || echo "not exists")
           if [[ $FUNCTION_EXISTS == "not exists" ]]; then
