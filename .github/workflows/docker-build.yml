@@ -52,6 +52,11 @@ jobs:
           name: env-file
           path: .
 
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker-compose -y
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
