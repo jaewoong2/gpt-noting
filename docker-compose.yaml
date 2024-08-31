@@ -4,6 +4,7 @@ services:
     platform: linux/amd64
     image: 849441246713.dkr.ecr.ap-northeast-2.amazonaws.com/chrome-extension-frontend-ecr:latest
     build:
+      contenxt: .
       dockerfile: Dockerfile
       args:
         PROJECT_NAME: gpt-archive-fe
@@ -12,4 +13,4 @@ services:
       - PROJECT_NAME=gpt-archive-fe
       - NEXT_SHARP_PATH=/app/node_modules/sharp
     ports:
-      - "3000:3000"
+      - '3000:3000'
